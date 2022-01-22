@@ -1,18 +1,23 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.mixins import ListModelMixin
 from rest_framework import status
 from .models import *
 from .serializers import *
 
 # Create your views here.
 
-class CategoryView(APIView):
+class CategoryView(GenericAPIView, ListModelMixin):
+
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
     
     def get(self, request):
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
-        return Response(serializer.data)
+        
+        return self.list(request)
 
     def post(self, request):
         serializer = CategorySerializer(data=request.data)
@@ -23,12 +28,14 @@ class CategoryView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FoodItemView(APIView):
+class FoodItemView(GenericAPIView, ListModelMixin):
     
+    serializer_class = FoodItemSerializer
+    queryset = FoodItem.objects.all()
+
     def get(self, request):
-        categories = FoodItem.objects.all()
-        serializer = FoodItemSerializer(categories, many=True)
-        return Response(serializer.data)
+        
+        return self.list(request)
 
     def post(self, request):
         serializer = FoodItemSerializer(data=request.data)
