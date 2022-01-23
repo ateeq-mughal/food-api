@@ -1,9 +1,15 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+
+router.register('category', CategoryView, basename='Category')
+router.register('fooditems', FoodItemView, basename='Fooditems')
+
 
 urlpatterns = [
-    path("category/", CategoryView.as_view()),
-    path("fooditems/", FoodItemView.as_view()),
-    # path("category/<int:id>/", CategoryView.as_view()),
-    # path("fooditems/<int:id>/", FoodItemView.as_view()),
+    path("", include(router.urls)),
+    
 ]

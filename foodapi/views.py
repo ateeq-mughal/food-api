@@ -10,37 +10,12 @@ from .serializers import *
 
 # Create your views here.
 
-class CategoryView(GenericAPIView, ListModelMixin):
+class CategoryView(ModelViewSet):
 
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    
-    def get(self, request):
-        
-        return self.list(request)
 
-    def post(self, request):
-        serializer = CategorySerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class FoodItemView(GenericAPIView, ListModelMixin):
+class FoodItemView(ModelViewSet):
     
     serializer_class = FoodItemSerializer
     queryset = FoodItem.objects.all()
-
-    def get(self, request):
-        
-        return self.list(request)
-
-    def post(self, request):
-        serializer = FoodItemSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
