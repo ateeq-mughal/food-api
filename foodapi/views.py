@@ -34,13 +34,13 @@ class AreaView(ModelViewSet):
 
 
 class OrderItemView(ModelViewSet):
-    pass
+
     queryset = OrderItem.objects.all()
-    serializer_class = OrderSerializer
+    serializer_class = OrderItemSerializer
 
 
 class OrderView(ModelViewSet):
-    pass
+
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     # authentication_classes = [SessionAuthentication]
