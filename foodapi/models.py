@@ -2,6 +2,12 @@ from django.db import models
 
 # Create your models here.
 
+class Area(models.Model):
+    name = models.CharField(max_length=255)
+    delivery_charges = models.DecimalField(max_digits=7, decimal_places=2)
+
+    def __str__(self):
+        return self.name
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -21,13 +27,19 @@ class FoodItem(models.Model):
     is_active = models.BooleanField(default=True)
     image = models.ImageField(upload_to='static')
 
-    def __str__(self):
-        return self.name
-
-
-class Area(models.Model):
-    name = models.CharField(max_length=255)
-    delivery_charges = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
         return self.name
+
+
+class OrderItem(models.Model):
+    food = models.ForeignKey(FoodItem, null=True, on_delete=models.SET_NULL)
+    quantity = models.IntegerField()
+    # total_price = models.DecimalField(max_digits=7, decimal_places=2) 
+
+
+class Order(models.Model):
+    area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)
+    food = models.ManyToManyField(OrderItem)
+    # order_price = models.DecimalField(max_digits=7, decimal_places=2)
+    pass

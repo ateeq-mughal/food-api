@@ -5,17 +5,37 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.mixins import ListModelMixin
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .models import *
 from .serializers import *
 
 # Create your views here.
 
 class CategoryView(ModelViewSet):
-
-    serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticated]
+    
 
 class FoodItemView(ModelViewSet):
     
-    serializer_class = FoodItemSerializer
     queryset = FoodItem.objects.all()
+    serializer_class = FoodItemSerializer
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticated]
+
+
+class AreaView(ModelViewSet):
+    
+    queryset = Area.objects.all()
+    serializer_class = AreaSerializer
+
+
+class OrderView(ModelViewSet):
+    pass
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = [IsAuthenticated]

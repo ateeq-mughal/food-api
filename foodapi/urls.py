@@ -7,9 +7,11 @@ router = DefaultRouter()
 
 router.register('category', CategoryView, basename='Category')
 router.register('fooditems', FoodItemView, basename='Fooditems')
+router.register('area', AreaView, basename='Area')
+router.register('order', OrderView, basename='Order')
 
 
 urlpatterns = [
     path("", include(router.urls)),
-    
+    path('accounts/', include('allauth.urls')),
 ]
