@@ -31,10 +31,25 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = '__all__'
 
+# class OrderSerializer2(serializers.Serializer):
+#     food = serializers.IntegerField()
+#     quantity = serializers.IntegerField()
 
 class OrderSerializer(serializers.ModelSerializer):
-    
+    # food = OrderSerializer2(many = True)
+
     class Meta:
         model = Order
         fields = '__all__'
+        read_only_fields = ('food',)
 
+    # def create(self, validated_data):
+    #     print(validated_data)
+    #     # food = validated_data.pop("order_item")
+    #     # x = OrderItemSerializer(data=food , many=True)
+    #     # if not x.is_valid():
+    #     #     print(x)
+    #     #     print(x.errors)
+    #     # order = OrderItem.objects.bulk_create(food)
+    #     # print(order)
+    #     return super().create(validated_data)

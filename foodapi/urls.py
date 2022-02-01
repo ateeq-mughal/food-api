@@ -16,4 +16,5 @@ router.register('order', OrderView, basename='Order')
 urlpatterns = [
     path("", include(router.urls)),
     path('accounts/', include('allauth.urls')),
+    path('create_order/',CreateOrderView.as_view()),
 ]
