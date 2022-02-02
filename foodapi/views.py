@@ -7,6 +7,7 @@ from rest_framework.mixins import ListModelMixin
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.core import serializers
 from .models import *
 from .serializers import *
 
@@ -45,3 +46,25 @@ class OrderView(ModelViewSet):
     serializer_class = OrderSerializer
     # authentication_classes = [SessionAuthentication]
     # permission_classes = [IsAuthenticated]
+
+class CreateOrderView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self,request):
+        user = self.request.user
+        area = self.request.data.get("area"," ")
+        order_items = request.data.pop("order_item")
+        order_item_keys = []
+        price = 0
+        for order_item in order_items:
+            food = FoodItem.objects.filter(id=order_item["food"]).first()
+            print(food.price)
+            price += int(food.price) * int(order_item["quantity"])
+            order_obj = OrderItem.objects.create(food=food, quantity=order_item["quantity"], total_price=int(food.price)*int(order_item["quantity"]))
+            order_item_keys.append(order_obj.id)
+        area = Area.objects.filter(id=area).first()
+        order = Order.objects.create(user=user, area=area, price=price)
+        order.food.set(order_item_keys)
+        order.save()
+        print()
+        return Response(Order.objects.filter(id=order.id).values()[0])

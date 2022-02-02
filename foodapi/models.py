@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Area(models.Model):
@@ -11,7 +11,7 @@ class Area(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='static')
+    image = models.ImageField(upload_to='static', null = True)
 
     def __str__(self):
         return self.name
@@ -27,18 +27,21 @@ class FoodItem(models.Model):
     is_active = models.BooleanField(default=True)
     image = models.ImageField(upload_to='static')
 
+    def __str__(self):
+        return self.name
+
 
 
 class OrderItem(models.Model):
     food = models.ForeignKey(FoodItem, null=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField()
-    # total_price = models.DecimalField(max_digits=7, decimal_places=2) 
+    total_price = models.DecimalField(max_digits=7, decimal_places=2) 
 
 
 class Order(models.Model):
     area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)
     food = models.ManyToManyField(OrderItem)
     time = models.DateTimeField(auto_now_add=True)
-    # order_price = models.DecimalField(max_digits=7, decimal_places=2)
+    user = models.ForeignKey(User,on_delete=models.CASCADE )
+    price = models.IntegerField()
 
-    
