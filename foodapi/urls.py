@@ -10,6 +10,7 @@ router.register('fooditems', FoodItemView, basename='Fooditems')
 router.register('area', AreaView, basename='Area')
 router.register('orderitem', OrderItemView, basename='OrderItem')
 router.register('order', OrderView, basename='Order')
+# router.register('order-history', OrderHistoryView, basename='OrderHistory')
 
 
 

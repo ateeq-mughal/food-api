@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.core import serializers
 from .models import *
 from .serializers import *
+import json
 
 # Create your views here.
 
@@ -64,10 +65,11 @@ class CreateOrderView(APIView):
                 order_obj = OrderItem.objects.create(food=food, quantity=order_item["quantity"], total_price=int(food.price)*int(order_item["quantity"]))
                 order_item_keys.append(order_obj.id)
             area = Area.objects.filter(id=area).first()
-            order = Order.objects.create(user=user, area=area, price=price)
-            order.food.set(order_item_keys)
+            order = Order.objects.create(user=user, area=area, price=price, item_id=json.dumps(order_item_keys))
+            order.order_item.set(order_item_keys)
             order.save()
-            print()
+
+            print(order_item_keys)
             return Response(Order.objects.filter(id=order.id).values()[0])
         
         except:
@@ -76,6 +78,5 @@ class CreateOrderView(APIView):
 class OrderHistoryView(APIView):
 
     permission_classes = (IsAuthenticated,)
-
     def get(self, request):
         return Response(Order.objects.filter(user=self.request.user).values())

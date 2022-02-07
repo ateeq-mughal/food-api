@@ -40,8 +40,9 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)
-    food = models.ManyToManyField(OrderItem)
+    order_item = models.ManyToManyField(OrderItem)
     time = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE )
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    item_id = models.TextField(null=True)
     price = models.IntegerField()
 
