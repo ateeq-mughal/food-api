@@ -51,20 +51,31 @@ class CreateOrderView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self,request):
-        user = self.request.user
-        area = self.request.data.get("area"," ")
-        order_items = request.data.pop("order_item")
-        order_item_keys = []
-        price = 0
-        for order_item in order_items:
-            food = FoodItem.objects.filter(id=order_item["food"]).first()
-            print(food.price)
-            price += int(food.price) * int(order_item["quantity"])
-            order_obj = OrderItem.objects.create(food=food, quantity=order_item["quantity"], total_price=int(food.price)*int(order_item["quantity"]))
-            order_item_keys.append(order_obj.id)
-        area = Area.objects.filter(id=area).first()
-        order = Order.objects.create(user=user, area=area, price=price)
-        order.food.set(order_item_keys)
-        order.save()
-        print()
-        return Response(Order.objects.filter(id=order.id).values()[0])
+        try:
+            user = self.request.user
+            area = self.request.data.get("area"," ")
+            order_items = request.data.pop("order_item")
+            order_item_keys = []
+            price = 0
+            for order_item in order_items:
+                food = FoodItem.objects.filter(id=order_item["food"]).first()
+                print(food.price)
+                price += int(food.price) * int(order_item["quantity"])
+                order_obj = OrderItem.objects.create(food=food, quantity=order_item["quantity"], total_price=int(food.price)*int(order_item["quantity"]))
+                order_item_keys.append(order_obj.id)
+            area = Area.objects.filter(id=area).first()
+            order = Order.objects.create(user=user, area=area, price=price)
+            order.food.set(order_item_keys)
+            order.save()
+            print()
+            return Response(Order.objects.filter(id=order.id).values()[0])
+        
+        except:
+            return Response({"area": "need id", "order_item":[{"food":"food id here", "quantity":"number"}]})
+
+class OrderHistoryView(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response(Order.objects.filter(user=self.request.user).values())

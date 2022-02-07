@@ -17,4 +17,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path('accounts/', include('allauth.urls')),
     path('create-order/',CreateOrderView.as_view()),
+    path('order-history/',OrderHistoryView.as_view()),
 ]
