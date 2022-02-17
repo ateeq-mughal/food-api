@@ -3,33 +3,32 @@ from .models import *
 from rest_framework import serializers
 
 
-
 class CategorySerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Category
         fields = '__all__'
-    
+
 
 class FoodItemSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = FoodItem
         fields = '__all__'
 
 
 class AreaSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Area
         fields = '__all__'
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = OrderItem
         fields = '__all__'
+
+# class OrderSerializer2(serializers.Serializer):
+#     food = serializers.IntegerField()
+#     quantity = serializers.IntegerField()
 
 # class OrderSerializer2(serializers.Serializer):
 #     food = serializers.IntegerField()

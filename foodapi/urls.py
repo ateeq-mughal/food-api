@@ -4,17 +4,17 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 
-
 router.register('category', CategoryView, basename='Category')
 router.register('fooditems', FoodItemView, basename='Fooditems')
 router.register('area', AreaView, basename='Area')
 router.register('orderitem', OrderItemView, basename='OrderItem')
 router.register('order', OrderView, basename='Order')
-
+# router.register('order-history', OrderHistoryView, basename='OrderHistory')
 
 
 urlpatterns = [
     path("", include(router.urls)),
     path('accounts/', include('allauth.urls')),
-    path('create_order/',CreateOrderView.as_view()),
+    path('create-order/', CreateOrderView.as_view()),
+    path('order-history/', OrderHistoryView.as_view()),
 ]
