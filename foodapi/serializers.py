@@ -43,6 +43,14 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('food',)
 
+    def __init__(self, *args, **kwargs):
+        super(OrderSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and request.method in ['POST','UPDATE']:
+            self.Meta.depth = 0
+        else:
+            self.Meta.depth = 2
+
     # def create(self, validated_data):
     #     print(validated_data)
     #     # food = validated_data.pop("order_item")
