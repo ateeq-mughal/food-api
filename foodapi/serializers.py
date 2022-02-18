@@ -26,6 +26,9 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = '__all__'
 
+# class OrderSerializer2(serializers.Serializer):
+#     food = serializers.IntegerField()
+#     quantity = serializers.IntegerField()
 
 # class OrderSerializer2(serializers.Serializer):
 #     food = serializers.IntegerField()
@@ -37,8 +40,15 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
-        depth = 2
-        # read_only_fields = ('food',)
+        read_only_fields = ('food',)
+
+    def __init__(self, *args, **kwargs):
+        super(OrderSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and request.method in ['POST','UPDATE']:
+            self.Meta.depth = 0
+        else:
+            self.Meta.depth = 2
 
     # def create(self, validated_data):
     #     print(validated_data)
