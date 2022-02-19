@@ -75,6 +75,14 @@ class OrderHistoryView(APIView):
         queryset = Order.objects.filter(user=self.request.user).values()
         for obj in queryset:
             obj["order_item"] = OrderItem.objects.filter(order__id=obj["id"]).values()
-            print(obj["order_item"])
 
         return Response(queryset)
+
+# class UserDetailsView(APIView):
+#     permission_classes = (IsAuthenticated,)
+
+#     def get(self,request):
+#         token = request.META.get('HTTP_AUTHORIZATION').split(" ")[1]
+#         user = Token.objects.get(key = token).user
+#         user_Ser = UserSerializer(user)
+#         return Response(user_Ser.data)

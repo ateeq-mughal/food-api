@@ -3,6 +3,26 @@ from .models import *
 from rest_framework import serializers
 
 
+# class RegistrationSerializer(RegisterSerializer):
+#     name = serializers.CharField(required = True)
+#     company = serializers.CharField(required = True)
+
+#     def validate_company(self, company):
+#         if User.objects.filter(company=company).exists():
+#             raise ValidationError("Company Already Exists")
+#         return company
+
+#     def save(self, request):
+#         user = super().save(request)
+#         company = self.validated_data.get("company","")
+#         user.company = company
+#         name = self.validated_data.get("name","")
+#         user.name = name
+#         user.is_admin = True
+#         user.save()
+#         return user   
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
