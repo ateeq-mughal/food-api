@@ -94,6 +94,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION =None
 
 
 
@@ -109,7 +110,7 @@ DATABASES = {
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE'  : 'django.db.backends.mysql', # <-- UPDATED line 
+#         'ENGINE'  : 'django.db.backends.mysql',
 #         'NAME'    : 'test_db_food',                 # <-- UPDATED line 
 #         'USER'    : 'root',                     # <-- UPDATED line
 #         'PASSWORD': '',              # <-- UPDATED line
@@ -144,7 +145,9 @@ REST_FRAMEWORK = {
     ),
 
 }
-
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'foodapi.serializers.RegistrationSerializer',
+}
 AUTHENTICATION_BACKENDS = [
     
     # Needed to login by username in Django admin, regardless of `allauth`

@@ -1,5 +1,6 @@
 from django.urls import path, include
 from .views import *
+from rest_auth.registration.views import VerifyEmailView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -17,5 +18,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('create-order/', CreateOrderView.as_view()),
     path('order-history/', OrderHistoryView.as_view()),
-    # path('user_detail/',views.UserDetailsView.as_view(),name='user'),
+
 ]

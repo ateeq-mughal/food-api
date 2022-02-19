@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Category, FoodItem, Area, OrderItem, Order
+from .models import *
 
 # Register your models here.
 
-
+admin.site.register(User)
 admin.site.register(Category)
 admin.site.register(FoodItem)
 admin.site.register(Area)

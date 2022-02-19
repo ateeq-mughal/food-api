@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
+from rest_framework.authtoken.models import Token
 from .serializers import *
 
 
@@ -63,7 +64,6 @@ class CreateOrderView(APIView):
         price = 0
         for order_item in order_items:
             food = FoodItem.objects.filter(id=order_item["food"]).first()
-            print(food.price)
             price += int(food.price) * int(order_item["quantity"])
             order_obj = OrderItem.objects.create(food=food, quantity=order_item["quantity"],
                                                  total_price=int(food.price) * int(order_item["quantity"]))
@@ -90,11 +90,11 @@ class OrderHistoryView(APIView):
 
         return Response(queryset)
 
-# class UserDetailsView(APIView):
-#     permission_classes = (IsAuthenticated,)
+class UserDetailsView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-#     def get(self,request):
-#         token = request.META.get('HTTP_AUTHORIZATION').split(" ")[1]
-#         user = Token.objects.get(key = token).user
-#         user_Ser = UserSerializer(user)
-#         return Response(user_Ser.data)
+    def get(self,request):
+        token = request.META.get('HTTP_AUTHORIZATION').split(" ")[1]
+        user = Token.objects.get(key = token).user
+        user_Ser = UserSerializer(user)
+        return Response(user_Ser.data)

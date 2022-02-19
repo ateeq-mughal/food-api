@@ -8,8 +8,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 class User(AbstractUser):
-    name = models.CharField(max_length=100)
-    contactno = models.CharField(max_length=11)
+    name = models.CharField(max_length=100, null=True)
+    contactno = models.CharField(max_length=11, null =True)
 
 class Area(models.Model):
     name = models.CharField(max_length=255)
@@ -17,7 +17,6 @@ class Area(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Category(models.Model):
     name = models.CharField(max_length=255)

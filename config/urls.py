@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from foodapi.views import UserDetailsView
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('foodapi.urls')),
     path('auth/', include('rest_auth.urls')),
     path('auth/register/', include('rest_auth.registration.urls')),
+    path('auth/user_detail/',UserDetailsView.as_view(),name='user'),
 ]
