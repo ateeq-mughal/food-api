@@ -16,10 +16,22 @@ class CategoryView(ModelViewSet):
 
 
 class FoodItemView(ModelViewSet):
-    queryset = FoodItem.objects.all()
     serializer_class = FoodItemSerializer
     # authentication_classes = [SessionAuthentication]
     # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        print(self.request.query_params)
+        params = self.request.query_params
+        
+        if params:
+            if 'category' in params:
+                queryset = FoodItem.objects.filter(category=params['category'])
+        else:
+                queryset = FoodItem.objects.all()
+
+        return queryset
+    
 
 
 class AreaView(ModelViewSet):

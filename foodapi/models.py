@@ -1,6 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import User
 # Create your models here.
+
+
+from django.contrib.auth.models import User, AbstractUser
+from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import User
+
+class User(AbstractUser):
+    name = models.CharField(max_length=100)
+    contactno = models.CharField(max_length=11)
 
 class Area(models.Model):
     name = models.CharField(max_length=255)
@@ -42,6 +51,6 @@ class Order(models.Model):
     area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)
     order_item = models.ManyToManyField(OrderItem, related_name='order')
     time = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE )
     price = models.IntegerField()
 
